@@ -1,0 +1,40 @@
+name: Database backup
+
+on:
+  schedule:
+    - cron: '23 2 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  logical-backup:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_PRODUCTION_DB_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Require production database secret
+        run: test -n "$SUPABASE_DB_URL" || (echo "Missing SUPABASE_PRODUCTION_DB_URL" && exit 1)
+      - name: Prepare private backup directory
+        run: mkdir -p backup
+      - name: Dump roles
+        run: npx supabase db dump --db-url "$SUPABASE_DB_URL" --file backup/roles.sql --role-only
+      - name: Dump schema
+        run: npx supabase db dump --db-url "$SUPABASE_DB_URL" --file backup/schema.sql
+      - name: Dump data
+        run: npx supabase db dump --db-url "$SUPABASE_DB_URL" --file backup/data.sql --data-only --use-copy --exclude storage.buckets_vectors --exclude storage.vector_indexes
+      - name: Write checksums
+        run: sha256sum backup/*.sql > backup/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frame-database-backup-${{ github.run_id }}
+          path: backup/
+          retention-days: 7
+          if-no-files-found: error

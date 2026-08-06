@@ -1,0 +1,42 @@
+:root {
+  --background: #111315;
+  --surface-1: #191c1f;
+  --surface-2: #22262a;
+  --surface-3: #2a2f34;
+  --foreground: #f2f0eb;
+  --muted: #aaa7a0;
+  --border: #303438;
+  --accent: #d69a45;
+  --accent-hover: #e3ac61;
+  --accent-contrast: #17120b;
+  --success: #68a680;
+  --warning: #d7a14c;
+  --danger: #d06f6f;
+  --overlay: rgb(3 5 6 / 72%);
+  --shadow-card: 0 18px 45px rgb(0 0 0 / 24%);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --header-height: 4rem;
+  --mobile-nav-height: 4.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --shadow-card: var(--shadow-card);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+}

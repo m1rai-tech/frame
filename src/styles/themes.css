@@ -1,0 +1,22 @@
+:root[data-theme='light'] {
+  color-scheme: light;
+  --background: #f5f2ec;
+  --surface-1: #fffcf7;
+  --surface-2: #eee9e0;
+  --surface-3: #e4ddd2;
+  --foreground: #191a1c;
+  --muted: #68645e;
+  --border: #d7d0c6;
+  --accent: #9c641e;
+  --accent-hover: #7f4f17;
+  --accent-contrast: #fffaf2;
+  --success: #3f7c59;
+  --warning: #996711;
+  --danger: #aa4f4f;
+  --overlay: rgb(18 16 13 / 62%);
+  --shadow-card: 0 18px 45px rgb(47 38 26 / 14%);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}

@@ -1,0 +1,131 @@
+import type { CatalogTitle, TitleDetails } from '@/features/catalog/catalog.types';
+
+export const demoTitles: CatalogTitle[] = [
+  {
+    id: '1',
+    slug: 'tykha-orbita',
+    type: 'movie',
+    title: 'Тиха орбіта',
+    originalTitle: 'Quiet Orbit',
+    synopsis: 'Екіпаж дослідницької станції отримує сигнал із сектора, який вважали порожнім.',
+    shortSynopsis: 'Космічна експедиція знаходить неможливий сигнал.',
+    releaseDate: '2026-02-14',
+    runtimeMinutes: 118,
+    ageRating: '12+',
+    originalLanguage: 'uk',
+    countryCodes: ['UA'],
+    status: 'completed',
+    genres: ['Фантастика', 'Драма'],
+  },
+  {
+    id: '2',
+    slug: 'zymovyi-lyst',
+    type: 'movie',
+    title: 'Зимовий лист',
+    synopsis: 'Лист без адреси повертає фотографку до міста, яке вона залишила багато років тому.',
+    shortSynopsis: 'Один лист змінює давно прийняте рішення.',
+    releaseDate: '2025-12-05',
+    runtimeMinutes: 104,
+    ageRating: '12+',
+    originalLanguage: 'uk',
+    countryCodes: ['UA'],
+    status: 'completed',
+    genres: ['Драма'],
+  },
+  {
+    id: '3',
+    slug: 'ostannia-platforma',
+    type: 'series',
+    title: 'Остання платформа',
+    synopsis: 'Нічний потяг зупиняється на станції, якої немає на жодній мапі.',
+    shortSynopsis: 'Таємнича станція з’являється лише опівночі.',
+    releaseDate: '2026-03-20',
+    runtimeMinutes: 48,
+    ageRating: '16+',
+    originalLanguage: 'en',
+    countryCodes: ['GB'],
+    status: 'ongoing',
+    genres: ['Детектив', 'Трилер'],
+  },
+  {
+    id: '4',
+    slug: 'paperovyi-misiats',
+    type: 'anime',
+    title: 'Паперовий місяць',
+    synopsis: 'Учениця майстерні оріґамі відкриває, що її фігури оживають під місячним світлом.',
+    shortSynopsis: 'Паперові створіння ведуть до забутого світу.',
+    releaseDate: '2026-01-10',
+    runtimeMinutes: 24,
+    ageRating: '12+',
+    originalLanguage: 'ja',
+    countryCodes: ['JP'],
+    status: 'ongoing',
+    genres: ['Фентезі', 'Пригоди'],
+  },
+  {
+    id: '5',
+    slug: 'pivnichnyi-viter',
+    type: 'movie',
+    title: 'Північний вітер',
+    synopsis: 'Метеоролог на віддаленому острові розслідує серію дивних радіосигналів.',
+    shortSynopsis: 'Острів, шторм і сигнал без джерела.',
+    releaseDate: '2025-10-18',
+    runtimeMinutes: 111,
+    ageRating: '16+',
+    originalLanguage: 'en',
+    countryCodes: ['IS'],
+    status: 'completed',
+    genres: ['Трилер'],
+  },
+  {
+    id: '6',
+    slug: 'pislia-svitla',
+    type: 'series',
+    title: 'Після світла',
+    synopsis: 'Місто вчиться жити після того, як сонце починає сходити лише на одну годину.',
+    shortSynopsis: 'Одна година світла змінює правила міста.',
+    releaseDate: '2026-04-03',
+    runtimeMinutes: 52,
+    ageRating: '16+',
+    originalLanguage: 'uk',
+    countryCodes: ['UA'],
+    status: 'ongoing',
+    genres: ['Фантастика', 'Драма'],
+  },
+];
+
+export function getDemoDetails(slug: string): TitleDetails | undefined {
+  const title = demoTitles.find((item) => item.slug === slug);
+  if (!title) return undefined;
+  const episodic = title.type !== 'movie';
+  return {
+    ...title,
+    credits: [],
+    studios: [],
+    seasons: episodic
+      ? [
+          {
+            id: `${title.id}-s1`,
+            seasonNumber: 1,
+            name: 'Сезон 1',
+            episodes: [
+              {
+                id: `${title.id}-e1`,
+                episodeNumber: 1,
+                title: 'Початок',
+                synopsis: 'Перша частина історії.',
+                runtimeSeconds: (title.runtimeMinutes ?? 24) * 60,
+              },
+              {
+                id: `${title.id}-e2`,
+                episodeNumber: 2,
+                title: 'Новий слід',
+                synopsis: 'Герої помічають деталь, яку раніше пропустили.',
+                runtimeSeconds: (title.runtimeMinutes ?? 24) * 60,
+              },
+            ],
+          },
+        ]
+      : [],
+  };
+}

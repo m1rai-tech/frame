@@ -1,0 +1,35 @@
+name: Refresh staging database
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: Type RESET_STAGING to replace all staging database data
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    environment: staging
+    env:
+      SOURCE_DB_URL: ${{ secrets.SUPABASE_PRODUCTION_DB_URL }}
+      TARGET_DB_URL: ${{ secrets.SUPABASE_STAGING_DB_URL }}
+      CONFIRM_TARGET: ${{ inputs.confirmation }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Verify staging target
+        run: node scripts/database-target-guard.mjs
+      - name: Apply migrations and synthetic seed to staging
+        run: npx supabase db reset --db-url "$TARGET_DB_URL" --yes
+      - name: Verify SQL sources
+        run: npm run sql:check
+
